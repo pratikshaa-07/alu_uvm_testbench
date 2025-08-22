@@ -1,5 +1,5 @@
 package pkg;
-`include "uvm_pkg.sv"
+  import uvm_pkg::*;
 `include "uvm_macros.svh"
 `include "item.sv"
 `include "seq.sv"
@@ -8,7 +8,7 @@ package pkg;
 `include "mon.sv"
 `include "agt.sv"
 `include "sb.sv"
-`include "covg.sv"
+`include "cov.sv"
 `include "env.sv"
-`include "tb.sv"
+`include "test.sv"
 endpackage
