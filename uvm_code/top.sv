@@ -1,14 +1,11 @@
 `include "uvm_pkg.sv"
+  import uvm_pkg::*;
 `include "uvm_macros.svh"
 `include "pkg.sv"
 `include "inf.sv"
-`include "design.sv"
+`include "des.v"
 module top;
-
-  import uvm_pkg::*; 
-  import pkg::*;
- 
-
+    import pkg::*;
   bit clk = 0;
   bit rst = 0;
 
@@ -42,21 +39,10 @@ module top;
   );
 
   initial begin
-
     uvm_config_db#(virtual inf)::set(uvm_root::get(),"*","vif",intf);
-
-//     $dumpfile("dump.vcd");
-
-//  $dumpvars;
-
   end
-
   initial begin
-
     run_test("reg_test");
-
       #100 $finish;
-
   end
 endmodule
-
