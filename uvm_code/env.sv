@@ -21,10 +21,10 @@ class env extends uvm_env;
 
     function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
-        // drv to fifo
+        // active monitor to fifo
       agt_a.mon.mport.connect(cv.a_mon.analysis_export);
       agt_a.mon.mport.connect(s.expected.analysis_export);
-        // mon to fifo
+        // passive monitor to fifo
       agt_p.mon.mport.connect(s.actual.analysis_export);
       agt_p.mon.mport.connect(cv.p_mon.analysis_export);
     endfunction
