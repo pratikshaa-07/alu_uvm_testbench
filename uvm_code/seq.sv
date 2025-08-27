@@ -1,7 +1,7 @@
 `include"def.sv"
 `include"uvm_macros.svh"
 
-//base
+//base seq
 class seq extends uvm_sequence#(sitem);
 `uvm_object_utils(seq)
 
@@ -10,9 +10,9 @@ function new(string name="");
 endfunction
 
 virtual task body();
-  repeat (5)
+    repeat (50)
     begin
-      `uvm_do_with(req,{req.ce==1'b1;})//req.inp_valid==2'b11;})
+      `uvm_do_with(req,{req.ce==1'b1;})
     end
 endtask
 endclass
@@ -26,7 +26,7 @@ function new(string name="");
 endfunction
 
 task body();
-  repeat(5)
+    repeat(50)
     begin
     `uvm_do_with(req,{req.mode==1'b1;req.ce==1'b1;})
     end
@@ -42,7 +42,7 @@ function new(string name="");
 endfunction
 
 task body();
-  repeat(5)
+    repeat(50)
     begin
     `uvm_do_with(req,{req.mode==1'b0;req.ce==1'b1;})
     end
@@ -58,13 +58,14 @@ function new(string name="");
 endfunction
 
 task body();
-  repeat(5)
+    repeat(50)
     begin
   `uvm_do_with(req,{req.inp_valid==2'b00;})
     end
 endtask
 endclass
 
+//invalid command
 class seq4 extends seq;
   `uvm_object_utils(seq4)
 
@@ -73,10 +74,14 @@ function new(string name="");
 endfunction
 
 task body();
-  `uvm_do_with(req,{req.cmd==4'b1111;})
+    repeat(50)
+   begin
+  `uvm_do_with(req,{req.cmd inside {14,15};})
+  end
 endtask
 endclass
 
+//ce=0
 class seq5 extends seq;
   `uvm_object_utils(seq5)
 
@@ -85,12 +90,29 @@ function new(string name="");
 endfunction
 
 task body();
-  repeat(5)
+    repeat(50)
     begin
-    `uvm_do_with(req,{req.mode==1'b0;req.ce==1'b1;})
+    `uvm_do_with(req,{req.ce==1'b0;})
     end
 endtask
 endclass
+
+//shift
+class seq6 extends seq;
+  `uvm_object_utils(seq6)
+
+function new(string name="");
+    super.new(name);
+endfunction
+
+task body();
+    repeat(50)
+    begin
+    `uvm_do_with(req,{req.mode==1'b0;req.ce==1'b1;req.cmd inside {12,13};})
+    end
+endtask
+endclass
+
 //regression
 class regr extends uvm_sequence#(sitem);
 `uvm_object_utils(regr);
@@ -101,6 +123,7 @@ seq2 s2;
 seq3 s3;
 seq4 s4;
 seq5 s5;
+seq6 s6;
 
 function new(string name="");
     super.new(name);
@@ -115,4 +138,5 @@ task body();
     `uvm_do(s5)
 endtask
 endclass
+
 
